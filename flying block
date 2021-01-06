@@ -1,0 +1,32 @@
+
+# ㅈㅡㄹㄱㅓㅇㅜㄴ ㅅㅡㅇㅊㅓㄴㅂㅡㄹㄹㅓㄱ !
+
+on rightclick:
+	if name of player's tool contain "&6&l[스핀블럭]":
+		cancel event
+		if player is not sneaking:
+			send "&6&l[ ! ] &f쉬프트와 우클릭을 동시에 해주세요."
+			stop
+		set {_인식부분} to type of player's tool
+		remove 1 of player's tool from player's tool
+		spinblock(player, {_인식부분})
+
+
+function spinblock(p: player, i: item):
+	{_i} isn't air:
+		set {_loc} to {_p}'s location
+		subtract 1 from y-coord of {_loc}
+		set yaw of {_loc} to yaw of {_p}
+		spawn an armor stand at location of {_loc}
+		add "{DisabledSlots:2039583, NoGravity:1, Invisible:1}" to nbt of last spawned entity
+		set {_spawn} to last spawned entity
+		set helmet of {_spawn} to {_i}
+		set {_loc} to location of {_spawn}
+		loop 100 times:
+			wait 1 ticks
+			add 40 to {_yaw}
+			add 0.025 to y-coord of {_loc}
+			set yaw of {_loc} to {_yaw}
+			teleport {_spawn} to {_loc}
+		create a safe explosion of force 1 at block 1 up {_loc}		
+		kill {_spawn}
